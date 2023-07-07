@@ -1,5 +1,3 @@
-const API_ANIME = 'https://api.waifu.im'
-
 const apiImagesAnime = axios.create({
     baseURL: 'https://api.waifu.im/',
     headers:{
@@ -32,15 +30,14 @@ async function viewImgAnime(){
         console.log(`Hubo un error : ${status.code} ${data.message}`)
     }
 }
-//viewImgAnime()
+viewImgAnime()
 
 const sectionAnime = document.querySelector("#anime-favorite")
 
 async function containerAnimeFav(){
     const {data,status} = await apiImagesAnime.get('/fav?many=1')
-    
+
     if(status == 200,201){
-        //data.forEach(anime => {
             const articuleAnime = document.createElement("articule")
             const imgAnime = document.createElement("img")
             const btnAnime = document.createElement("button")
@@ -48,17 +45,16 @@ async function containerAnimeFav(){
             const h2 = document.createElement('h2')
             const h2Text = document.createTextNode("Anime Favorite")
 
-            h2.appendChild(h2Text)
-            sectionAnime.appendChild(h2)
-            imgAnime.src = data.images[0].url
-            imgAnime.width = 400
-            imgAnime.height = 400
-            articuleAnime.appendChild(imgAnime)
-            articuleAnime.appendChild(btnAnime)
-            btnAnime.appendChild(btnTextAnime)
-            btnAnime.onclick = () => {deleteAnimeFavorite(data.images[0].image_id)}    
+            h2.appendChild(h2Text),
+            sectionAnime.appendChild(h2),
+            imgAnime.src = data.images[0].url,
+            imgAnime.width = 400,
+            imgAnime.height = 400,
+            articuleAnime.appendChild(imgAnime),
+            articuleAnime.appendChild(btnAnime),
+            btnAnime.appendChild(btnTextAnime),
+            btnAnime.onclick = () => deleteAnimeFavorite(data.images[0].image_id),    
             sectionAnime.appendChild(articuleAnime)
-        //})
     } else{
         console.log(`Hubo un error : ${status.code} ${data.message}`)
     }
@@ -82,8 +78,8 @@ async function deleteAnimeFavorite(id){
         image_id: id
     })
     if(status == 200,201){
-        containerAnimeFav()
         sectionAnime.innerHTML = ""
+        containerAnimeFav()
         console.log(data)
     } else {
         console.log(`Hubo un error : ${status.code} ${data.message}`)
