@@ -1,42 +1,45 @@
 const API_ANIME = 'https://api.waifu.im'
 
-async function viewImgAnime(){
-    const res = await fetch(`${API_ANIME}/search?many=1`)
-    const data = await res.json()
+const apiImagesAnime = axios.create({
+    baseURL: 'https://api.waifu.im/',
+    headers:{
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept-Version': 'v5',
+        'Authorization': 'Bearer qfFOspVSC27qyYMEaNMEmTdykJVCXh2Ie2Whb7zPhlLK18CEgBq6htApKD36OhSIpbqO98limoxFcjJsekEw3wBzsgw2zP0uGbNTohhJE2MjfSUJrVq6td8ZR4ujmitnv1ybrU56bdAA5gedpADQcdMCFN_xAuM2VXlBgIP-3JU'
+    }
+})
 
-    if(res.status == 200){
+async function viewImgAnime(){
+    const {data,status} = await apiImagesAnime.get('/search?many=1')
+
+    if(status == 200){
         const imgAnime = document.querySelector("#image-anime")
         const imgAnime2 = document.querySelector("#image-anime2")
 
         const btnAnime1 = document.getElementById('btnAnime1')
         const btnAnime2 = document.getElementById('btnAnime2')
 
-        imgAnime.src = data['images'][0]['url']
-        imgAnime2.src = data['images'][1]['url']
+        imgAnime.src = data.images[0].url
+        imgAnime.width = 400
+        imgAnime.height = 400
+        imgAnime2.src = data.images[1].url
+        imgAnime2.width = 400
+        imgAnime2.height = 400
 
-        btnAnime1.onclick = () => editAnimeFav(data['images'][0].image_id)
-        btnAnime2.onclick = () => editAnimeFav(data['images'][1].image_id)
+        btnAnime1.onclick = () => editAnimeFav(data.images[0].image_id)
+        btnAnime2.onclick = () => editAnimeFav(data.images[1].image_id)
     } else{
-        alert = 'FAILED'
+        console.log(`Hubo un error : ${status.code} ${data.message}`)
     }
-    console.log(data)
 }
-viewImgAnime()
+//viewImgAnime()
 
 const sectionAnime = document.querySelector("#anime-favorite")
 
 async function containerAnimeFav(){
-    const res = await fetch(`${API_ANIME}/fav?full=1`, {
-        method: 'GET',
-        headers: {
-        'Content-Type': 'application/json',
-        'Accept-Version': 'v5',
-        'Authorization': 'Bearer qfFOspVSC27qyYMEaNMEmTdykJVCXh2Ie2Whb7zPhlLK18CEgBq6htApKD36OhSIpbqO98limoxFcjJsekEw3wBzsgw2zP0uGbNTohhJE2MjfSUJrVq6td8ZR4ujmitnv1ybrU56bdAA5gedpADQcdMCFN_xAuM2VXlBgIP-3JU'
-        }
-    })
-    const data = await res.json()
+    const {data,status} = await apiImagesAnime.get('/fav?many=1')
     
-    if(res.status == 200,201){
+    if(status == 200,201){
         //data.forEach(anime => {
             const articuleAnime = document.createElement("articule")
             const imgAnime = document.createElement("img")
@@ -47,51 +50,42 @@ async function containerAnimeFav(){
 
             h2.appendChild(h2Text)
             sectionAnime.appendChild(h2)
-            imgAnime.src = data['images'][0].url
-            imgAnime.width = 300
+            imgAnime.src = data.images[0].url
+            imgAnime.width = 400
             imgAnime.height = 400
             articuleAnime.appendChild(imgAnime)
             articuleAnime.appendChild(btnAnime)
             btnAnime.appendChild(btnTextAnime)
-            btnAnime.onclick = () => deleteAnimeFavorite(data['images'][0]['image_id'])    
+            btnAnime.onclick = () => {deleteAnimeFavorite(data.images[0].image_id)}    
             sectionAnime.appendChild(articuleAnime)
         //})
+    } else{
+        console.log(`Hubo un error : ${status.code} ${data.message}`)
     }
 }
 
-async function editAnimeFav(image_id){
-    const res = await fetch(`${API_ANIME}/fav/insert?${image_id}`, {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json',
-        'Accept-Version': 'v5',
-        'Authorization': 'Bearer qfFOspVSC27qyYMEaNMEmTdykJVCXh2Ie2Whb7zPhlLK18CEgBq6htApKD36OhSIpbqO98limoxFcjJsekEw3wBzsgw2zP0uGbNTohhJE2MjfSUJrVq6td8ZR4ujmitnv1ybrU56bdAA5gedpADQcdMCFN_xAuM2VXlBgIP-3JU'
-        },
-        body:
-        JSON.stringify({
-            image_id: image_id
-        })
+async function editAnimeFav(id){
+    const {data,status} = await apiImagesAnime.post(`/fav/insert?${id}`,{
+        image_id: id
     })
-    if(res.status == 200,201){
+    if(status == 200,201){
         containerAnimeFav()
+        console.log(data)
+    } else {
+        console.log(`Hubo un error : ${status.code} ${data.message}`)
     }
+    
 }
 
-async function deleteAnimeFavorite(image_id){
-    const res = fetch(`${API_ANIME}/fav/delete?${image_id}`, {
-        method: 'DELETE',
-        headers: {
-        'Content-Type': 'application/json',
-        'Accept-Version': 'v5',
-        'Authorization': 'Bearer qfFOspVSC27qyYMEaNMEmTdykJVCXh2Ie2Whb7zPhlLK18CEgBq6htApKD36OhSIpbqO98limoxFcjJsekEw3wBzsgw2zP0uGbNTohhJE2MjfSUJrVq6td8ZR4ujmitnv1ybrU56bdAA5gedpADQcdMCFN_xAuM2VXlBgIP-3JU'
-        },
-        body:
-        JSON.stringify({
-            image_id: image_id
-        })
+async function deleteAnimeFavorite(id){
+    const {data,status} = await apiImagesAnime.post(`/fav/toggle?${id}`,{
+        image_id: id
     })
-    if(res.status == 200,201){
+    if(status == 200,201){
         containerAnimeFav()
-        sectionAnime.innerHTML = ''
+        sectionAnime.innerHTML = ""
+        console.log(data)
+    } else {
+        console.log(`Hubo un error : ${status.code} ${data.message}`)
     }
 }
