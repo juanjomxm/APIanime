@@ -30,12 +30,12 @@ async function viewImgAnime(){
         console.log(`Hubo un error : ${status.code} ${data.message}`)
     }
 }
-viewImgAnime()
+//viewImgAnime()
 
 const sectionAnime = document.querySelector("#anime-favorite")
 
 async function containerAnimeFav(){
-    const {data,status} = await apiImagesAnime.get('/fav?many=1')
+    const {data,status} = await apiImagesAnime.get('/fav?order_by=FAVORITES&many=1')
 
     if(status == 200,201){
             const articuleAnime = document.createElement("articule")
@@ -45,19 +45,20 @@ async function containerAnimeFav(){
             const h2 = document.createElement('h2')
             const h2Text = document.createTextNode("Anime Favorite")
 
-            h2.appendChild(h2Text),
-            sectionAnime.appendChild(h2),
-            imgAnime.src = data.images[0].url,
-            imgAnime.width = 400,
-            imgAnime.height = 400,
-            articuleAnime.appendChild(imgAnime),
-            articuleAnime.appendChild(btnAnime),
-            btnAnime.appendChild(btnTextAnime),
-            btnAnime.onclick = () => deleteAnimeFavorite(data.images[0].image_id),    
+            h2.appendChild(h2Text)
+            sectionAnime.appendChild(h2)
+            imgAnime.src = [data.images[0].url]
+            imgAnime.width = 400
+            imgAnime.height = 400
+            articuleAnime.appendChild(imgAnime)
+            articuleAnime.appendChild(btnAnime)
+            btnAnime.appendChild(btnTextAnime)
+            btnAnime.onclick = () => deleteAnimeFavorite(data.images[0].image_id) 
             sectionAnime.appendChild(articuleAnime)
     } else{
         console.log(`Hubo un error : ${status.code} ${data.message}`)
     }
+    console.log(data)
 }
 
 async function editAnimeFav(id){
@@ -69,8 +70,7 @@ async function editAnimeFav(id){
         console.log(data)
     } else {
         console.log(`Hubo un error : ${status.code} ${data.message}`)
-    }
-    
+    } 
 }
 
 async function deleteAnimeFavorite(id){
