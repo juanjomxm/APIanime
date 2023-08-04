@@ -1,12 +1,11 @@
-window.addEventListener('load', navigator) 
-window.addEventListener('hashchange', navigator) // La manera como se va a ejecutar el hash porque es una propiedad de window
+window.addEventListener('DOMContentLoaded', navigator, false) 
+window.addEventListener('hashchange', navigator, false) // La manera como se va a ejecutar el hash porque es una propiedad de window
 function navigator(){
-    if(location.hash.startsWith('#home')){
-        homePage()
-    } else if(location.hash.startsWith('#favorites')){
+    if(location.hash.startsWith('#favorites')){
         imgAnimeFavorites()
+    } else {
+        homePage()
     }
-}
 
 function homePage(){
     viewImgAnime()
@@ -16,4 +15,5 @@ function homePage(){
 function imgAnimeFavorites(){
     containerAnimeFav()
     console.log('FAVORITES')
+}
 }

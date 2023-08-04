@@ -1,3 +1,5 @@
+import {axios} from './lib/axios.js';
+
 const apiImagesAnime = axios.create({
     baseURL: 'https://api.waifu.im/',
     headers:{
@@ -6,6 +8,8 @@ const apiImagesAnime = axios.create({
         'Authorization': 'Bearer qfFOspVSC27qyYMEaNMEmTdykJVCXh2Ie2Whb7zPhlLK18CEgBq6htApKD36OhSIpbqO98limoxFcjJsekEw3wBzsgw2zP0uGbNTohhJE2MjfSUJrVq6td8ZR4ujmitnv1ybrU56bdAA5gedpADQcdMCFN_xAuM2VXlBgIP-3JU'
     }
 })
+
+const sectionHome = document.getElementById('section-home')
 
 async function viewImgAnime(){
     const {data,status} = await apiImagesAnime.get('/search?many=1')
@@ -35,7 +39,7 @@ async function viewImgAnime(){
 const sectionAnime = document.querySelector("#anime-favorite")
 
 async function containerAnimeFav(){
-    const {data,status} = await apiImagesAnime.get('/fav?order_by=FAVORITES&many=1')
+    const {data,status} = await apiImagesAnime.get('/fav')
 
     if(status == 200,201){
             const articuleAnime = document.createElement("articule")
@@ -47,7 +51,7 @@ async function containerAnimeFav(){
 
             h2.appendChild(h2Text)
             sectionAnime.appendChild(h2)
-            imgAnime.src = [data.images[0].url]
+            imgAnime.src = data.images[0].url
             imgAnime.width = 400
             imgAnime.height = 400
             articuleAnime.appendChild(imgAnime)
@@ -58,19 +62,21 @@ async function containerAnimeFav(){
     } else{
         console.log(`Hubo un error : ${status.code} ${data.message}`)
     }
-    console.log(data)
+      console.log(data)
 }
 
 async function editAnimeFav(id){
     const {data,status} = await apiImagesAnime.post(`/fav/insert?${id}`,{
         image_id: id
     })
+
     if(status == 200,201){
         containerAnimeFav()
         console.log(data)
     } else {
         console.log(`Hubo un error : ${status.code} ${data.message}`)
     } 
+
 }
 
 async function deleteAnimeFavorite(id){
