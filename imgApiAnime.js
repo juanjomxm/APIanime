@@ -1,4 +1,3 @@
-import {axios} from './lib/axios.js';
 
 const apiImagesAnime = axios.create({
     baseURL: 'https://api.waifu.im/',
@@ -9,10 +8,10 @@ const apiImagesAnime = axios.create({
     }
 })
 
-const sectionHome = document.getElementById('section-home')
+
 
 async function viewImgAnime(){
-    const {data,status} = await apiImagesAnime.get('/search?many=1')
+    const {data, status} = await apiImagesAnime.get('/search?many=1')
 
     if(status == 200){
         const imgAnime = document.querySelector("#image-anime")
@@ -31,17 +30,18 @@ async function viewImgAnime(){
         btnAnime1.onclick = () => editAnimeFav(data.images[0].image_id)
         btnAnime2.onclick = () => editAnimeFav(data.images[1].image_id)
     } else{
-        console.log(`Hubo un error : ${status.code} ${data.message}`)
+        console.log(`Hubo un error : ${status}`)
     }
+    console.log(data)
 }
-//viewImgAnime()
+viewImgAnime()
 
 const sectionAnime = document.querySelector("#anime-favorite")
 
 async function containerAnimeFav(){
-    const {data,status} = await apiImagesAnime.get('/fav')
+    const {data, status} = await apiImagesAnime.get('/fav?many=1')
 
-    if(status == 200,201){
+        if(status == 200){
             const articuleAnime = document.createElement("articule")
             const imgAnime = document.createElement("img")
             const btnAnime = document.createElement("button")
@@ -49,38 +49,37 @@ async function containerAnimeFav(){
             const h2 = document.createElement('h2')
             const h2Text = document.createTextNode("Anime Favorite")
 
-            h2.appendChild(h2Text)
+            
             sectionAnime.appendChild(h2)
+            h2.appendChild(h2Text)
+            articuleAnime.appendChild(imgAnime)
+            articuleAnime.appendChild(btnAnime)
             imgAnime.src = data.images[0].url
             imgAnime.width = 400
             imgAnime.height = 400
-            articuleAnime.appendChild(imgAnime)
-            articuleAnime.appendChild(btnAnime)
             btnAnime.appendChild(btnTextAnime)
-            btnAnime.onclick = () => deleteAnimeFavorite(data.images[0].image_id) 
+            btnAnime.onclick = () => deleteAnimeFavorite(data.images[0].image_id)
             sectionAnime.appendChild(articuleAnime)
-    } else{
-        console.log(`Hubo un error : ${status.code} ${data.message}`)
-    }
-      console.log(data)
+        } else{
+            console.log('What that hell')
+        }
 }
 
 async function editAnimeFav(id){
-    const {data,status} = await apiImagesAnime.post(`/fav/insert?${id}`,{
+    const {data, status} = await apiImagesAnime.post(`/fav/insert?${id}`,{
         image_id: id
     })
-
     if(status == 200,201){
         containerAnimeFav()
         console.log(data)
     } else {
-        console.log(`Hubo un error : ${status.code} ${data.message}`)
+        console.log(`Falla catastrofica: ${status.code}`)
     } 
 
 }
 
 async function deleteAnimeFavorite(id){
-    const {data,status} = await apiImagesAnime.post(`/fav/toggle?${id}`,{
+    const {data, status} = await apiImagesAnime.post(`/fav/toggle?${id}`,{
         image_id: id
     })
     if(status == 200,201){
@@ -88,6 +87,7 @@ async function deleteAnimeFavorite(id){
         containerAnimeFav()
         console.log(data)
     } else {
-        console.log(`Hubo un error : ${status.code} ${data.message}`)
+        console.log(`Falla catastrofica: ${status.code}`)
     }
+    sectionAnime.innerHTML = ""
 }
