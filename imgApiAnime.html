@@ -10,14 +10,17 @@
     <section id="section-home">
         <h2>Images Anime</h2>
 
-        <div>
-            <img id="image-anime" width="300" alt="">
-            <button id="btnAnime1">Anime favorite</button>
-        </div>
+        <div id='images-principal'>
 
-        <div>
-            <img id="image-anime2" width="300" alt="">
-            <button id="btnAnime2">Anime favorite</button>
+            <div id="img-one">
+                <img id="image-anime" width="300" alt="">
+                <button id="btnAnime1">Anime favorite</button>
+            </div>
+            
+            <div id="img-two">
+                <img id="image-anime2" width="300" alt="">
+                <button id="btnAnime2">Anime favorite</button>
+            </div>
         </div>
         <button onclick="viewImgAnime()">Pictures</button>
     </section>
@@ -28,6 +31,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
     <script src="./imgApiAnime.js"></script>
+    <link rel="stylesheet" href="./imgApiAnime.css"> 
 </body>
 
 </html>

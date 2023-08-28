@@ -1,0 +1,25 @@
+h1, h2{
+    display: flex;
+    justify-content: center;
+}
+
+img{
+    border-radius: 10px;
+}
+
+#images-principal{
+    display: flex;
+    justify-content: center;
+}
+
+#img-one{
+    display: grid;
+    justify-items: center;
+    margin-left: 10px;
+}
+
+#img-two{
+    display: grid;
+    justify-items: center;
+    margin-left: 10px;
+}
