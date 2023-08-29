@@ -5,6 +5,12 @@ h1, h2{
 
 img{
     border-radius: 10px;
+    margin-top: 20px;
+}
+
+#button-aleatory{
+    display: flex;
+    justify-content: center;
 }
 
 #images-principal{
@@ -22,4 +28,10 @@ img{
     display: grid;
     justify-items: center;
     margin-left: 10px;
+}
+
+#anime-favorite{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

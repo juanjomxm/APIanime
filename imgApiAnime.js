@@ -17,31 +17,34 @@ async function viewImgAnime(){
         const btnAnime1 = document.getElementById('btnAnime1')
         const btnAnime2 = document.getElementById('btnAnime2')
 
-        imgAnime.src = data.images[0].url
-        imgAnime.width = 400
-        imgAnime.height = 400
+            imgAnime.src = data.images[0].url
+            imgAnime.width = 400
+            imgAnime.height = 400
 
-        imgAnime2.src = data.images[1].url
-        imgAnime2.width = 400
-        imgAnime2.height = 400
+            imgAnime2.src = data.images[1].url
+            imgAnime2.width = 400
+            imgAnime2.height = 400
 
-        btnAnime1.onclick = () => editAnimeFav(data.images[0].image_id)
-        btnAnime2.onclick = () => editAnimeFav(data.images[1].image_id)
+            btnAnime1.onclick = () => editAnimeFav(data.images[0].image_id)
+            btnAnime2.onclick = () => editAnimeFav(data.images[1].image_id)
+
+            console.log(data)
     } else{
         console.log(`Hubo un error : ${status}`)
     }
-    console.log(data)
 }
 viewImgAnime()
 
 const sectionAnime = document.querySelector("#anime-favorite")
 
 async function containerAnimeFav(){
-    const {data, status} = await apiImagesAnime.get('/fav')
+    const {data, status} = await apiImagesAnime.get('/fav?many=1')
+    sectionAnime.innerHTML = ""
 
     if(status == 200,201){
+        data.images.forEach(item =>{
             const articuleAnime = document.createElement("articule")
-            const imgAnime = document.createElement("img")
+            let imgAnime = document.createElement("img")
             const btnAnime = document.createElement("button")
             const btnTextAnime = document.createTextNode("Delete of favorites")
             const h2 = document.createElement('h2')
@@ -51,12 +54,13 @@ async function containerAnimeFav(){
             sectionAnime.appendChild(h2)
             imgAnime.width = 400
             imgAnime.height = 400
-            imgAnime.src = `${data.images[0].url}`
+            imgAnime.src = item.url
             btnAnime.appendChild(btnTextAnime)
             articuleAnime.appendChild(imgAnime) 
             articuleAnime.appendChild(btnAnime)
-            btnAnime.onclick = () => deleteAnimeFavorite(data.images[0].image_id)
+            btnAnime.onclick = () => deleteAnimeFavorite(item.image_id)
             sectionAnime.appendChild(articuleAnime)
+        })
     } else{
         alert('No hay mas imagenes')
     }
@@ -69,13 +73,12 @@ async function editAnimeFav(id){
         image_id: id
     })
 
-    if(status == 200,201){
-        containerAnimeFav()  
-        console.log(data)
-    } else {
-        console.log(`Falla catastrofica: ${status.code}`)
-    } 
-
+        if(status == 200,201){
+            containerAnimeFav()  
+            console.log(data)
+        } else {
+            console.log(`Falla catastrofica: ${status.code}`)
+        }
 }
 
 async function deleteAnimeFavorite(id){
@@ -83,11 +86,11 @@ async function deleteAnimeFavorite(id){
         image_id: id
     })
 
-        if(status == 200,201,404){
+        if(status == 200,201){
             containerAnimeFav()
-            sectionAnime.innerHTML = ""
             console.log(data)
         } else {
             console.log(`Falla catastrofica: ${status.code}`)
         }
+        
 }
