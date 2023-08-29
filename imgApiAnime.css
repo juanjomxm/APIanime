@@ -1,6 +1,11 @@
+body{
+    background-color: black;
+}
+
 h1, h2{
     display: flex;
     justify-content: center;
+    color: white;
 }
 
 img{
@@ -21,7 +26,6 @@ img{
 #img-one{
     display: grid;
     justify-items: center;
-    margin-left: 10px;
 }
 
 #img-two{
@@ -31,7 +35,9 @@ img{
 }
 
 #anime-favorite{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding-left: 24px;
+    padding-bottom: 16px;
 }

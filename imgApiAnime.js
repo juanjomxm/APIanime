@@ -46,12 +46,8 @@ async function containerAnimeFav(){
             const articuleAnime = document.createElement("articule")
             let imgAnime = document.createElement("img")
             const btnAnime = document.createElement("button")
-            const btnTextAnime = document.createTextNode("Delete of favorites")
-            const h2 = document.createElement('h2')
-            const h2Text = document.createTextNode("Anime Favorito")
-
-            h2.appendChild(h2Text)
-            sectionAnime.appendChild(h2)
+            const btnTextAnime = document.createTextNode("Eliminar")
+    
             imgAnime.width = 400
             imgAnime.height = 400
             imgAnime.src = item.url
