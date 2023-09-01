@@ -1,3 +1,14 @@
+function initApp(){
+    let sectionImages = document.getElementById('section-home')
+    sectionImages.style.display = 'none'
+
+    let sectionFavorites = document.getElementById('anime-favorite')
+    sectionFavorites.style.display = 'none'
+
+    let titleFavorites = document.getElementById('title-favorites')
+    titleFavorites.style.display = 'none'
+}
+
 const apiImagesAnime = axios.create({
     baseURL: 'https://api.waifu.im/',
     headers:{
@@ -10,8 +21,15 @@ const apiImagesAnime = axios.create({
 let inputCategory = document.getElementById('category-images')
 
 function searchCategoryImages(){
-    viewImgAnime()
-    console.log(inputCategory.value) 
+
+        if(inputCategory.value){        
+            let sectionImages = document.getElementById('section-home')
+            sectionImages.style.display = 'block'
+            viewImgAnime()
+        } else{
+            let sectionImages = document.getElementById('section-home')
+            sectionImages.style.display = 'none'
+        }
 }
 
 async function viewImgAnime(){
@@ -37,21 +55,23 @@ async function viewImgAnime(){
         console.log(`Hubo un error : ${status}`)
     }
 }
-// viewImgAnime()
+//viewImgAnime()
 
 const sectionAnime = document.querySelector("#anime-favorite")
 
 async function containerAnimeFav(){
+    let sectionFavorites = document.getElementById('anime-favorite')
+    sectionFavorites.style.display = 'block'
     const {data, status} = await apiImagesAnime.get('/fav?many=1')
     sectionAnime.innerHTML = ""
 
     if(status == 200,201){
         data.images.forEach(item =>{
             const articuleAnime = document.createElement("articule")
-            let imgAnime = document.createElement("img")
+            const imgAnime = document.createElement("img")
             const btnAnime = document.createElement("button")
             const btnTextAnime = document.createTextNode("Eliminar")
-    
+        
             imgAnime.width = 400
             imgAnime.height = 400
             imgAnime.src = item.url
@@ -69,6 +89,11 @@ async function containerAnimeFav(){
 containerAnimeFav()
 
 async function editAnimeFav(id){
+    let sectionFavorites = document.getElementById('anime-favorite')
+    sectionFavorites.style.display = 'flex'
+    let titleFavorites = document.getElementById('title-favorites')
+    titleFavorites.style.display = 'flex'
+
     const {data, status} = await apiImagesAnime.post(`/fav/insert?${id}`,{
         image_id: id
     })
@@ -91,6 +116,6 @@ async function deleteAnimeFavorite(id){
             console.log(data)
         } else {
             console.log(`Falla catastrofica: ${status.code}`)
-        }
-        
+        }     
 }
+window.addEventListener("load", initApp)

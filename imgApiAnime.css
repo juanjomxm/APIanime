@@ -2,7 +2,7 @@ body{
     background-color: black;
 }
 
-h1, h2{
+h1, h2, h3{
     display: flex;
     justify-content: center;
     color: white;
@@ -17,9 +17,25 @@ button{
     cursor: pointer;
 }
 
+li{
+    color: white;
+}
+
+#search-categories{
+    display: flex;
+    justify-content: center;
+}
+
+#list-category-normal, list-category-18{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #button-aleatory{
     display: flex;
     justify-content: center;
+    margin-top: 20px;
 }
 
 #images-principal{

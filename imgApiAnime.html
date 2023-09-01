@@ -6,15 +6,40 @@
     <title>API ANIME</title>
 </head>
 <body>
-    
-    <section id="section-home">
-        <h2>ANIME</h2>
 
-        <div>
-            <input id="category-images" placeholder="Category"/>
+    <section id="section-search-category">
+        <h2>IMAGENES ANIME</h2>
+        <h3>CATEGORIAS</h3>
+        
+        <ul id="list-category-normal">
+            <li>waifu</li>
+            <li>maid</li>
+            <li>marin-kitagawa</li>
+            <li>mori-calliope</li>
+            <li>raiden-shogun</li>
+            <li>oppai</li>
+            <li>selfies</li>
+            <li>uniform</li>
+        </ul>
+
+        <ul id="list-category-18">
+            <h3>Mayores de 18</h3>
+            <li>ero</li>
+            <li>ass</li>
+            <li>hentai</li>
+            <li>milf</li>
+            <li>oral</li>
+            <li>paizuri</li>
+            <li>ecchi</li>
+        </ul>
+
+        <div id="search-categories">
+            <input id="category-images" placeholder="Buscar Categoria"/>
             <button onclick="searchCategoryImages()">BUSCAR🔍</button>
         </div>
-
+    </section>
+    
+    <section id="section-home">
         <div id="button-aleatory">
             <button onclick="viewImgAnime()">CAMBIAR</button>
         </div>
@@ -32,9 +57,9 @@
         </div>
     </section>
 
-    <h2>IMAGENES FAVORITAS</h2>
-        <section id="anime-favorite">
-        </section>
+    <h2 id="title-favorites">IMAGENES FAVORITAS</h2>
+    <section id="anime-favorite">
+    </section>
 
     <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
     <script src="./imgApiAnime.js"></script>
