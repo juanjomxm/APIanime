@@ -13,6 +13,10 @@ img{
     margin-top: 20px;
 }
 
+button{
+    cursor: pointer;
+}
+
 #button-aleatory{
     display: flex;
     justify-content: center;

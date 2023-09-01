@@ -7,13 +7,19 @@ const apiImagesAnime = axios.create({
     }
 })
 
+let inputCategory = document.getElementById('category-images')
+
+function searchCategoryImages(){
+    viewImgAnime()
+    console.log(inputCategory.value) 
+}
+
 async function viewImgAnime(){
-    const {data, status} = await apiImagesAnime.get('/search?many=1')
+    const {data, status} = await apiImagesAnime.get(`/search?many=1&included_tags=${inputCategory.value}`)
 
     if(status == 200){
         const imgAnime = document.querySelector("#image-anime")
         const imgAnime2 = document.querySelector("#image-anime2")
-
         const btnAnime1 = document.getElementById('btnAnime1')
         const btnAnime2 = document.getElementById('btnAnime2')
 
@@ -27,13 +33,11 @@ async function viewImgAnime(){
 
             btnAnime1.onclick = () => editAnimeFav(data.images[0].image_id)
             btnAnime2.onclick = () => editAnimeFav(data.images[1].image_id)
-
-            console.log(data)
     } else{
         console.log(`Hubo un error : ${status}`)
     }
 }
-viewImgAnime()
+// viewImgAnime()
 
 const sectionAnime = document.querySelector("#anime-favorite")
 
